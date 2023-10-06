@@ -15,14 +15,51 @@ class MyPlayerState extends State<MyPlayer> {
     _controller = VideoPlayerController.networkUrl(Uri.parse(
         'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'))
       ..initialize().then((_) {
-        setState(() {
-          
-        });
+        setState(() {});
       });
     super.initState();
   }
 
   Widget build(BuildContext context) {
-    return Center();
+    return Center(
+      child: _controller.value.isInitialized
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller),
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                SizedBox(
+                  height: 40,
+                  width: 100,
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                        Color.fromARGB(255, 25, 46, 56),
+                      )),
+                      onPressed: () {
+                        setState(() {
+                          _controller.value.isPlaying
+                              ? _controller.pause()
+                              : _controller.play();
+                        });
+                      },
+                      child: _controller.value.isPlaying
+                          ? Icon(Icons.pause_circle)
+                          : Icon(Icons.play_circle)),
+                ),
+              ],
+            )
+          : Container(
+            child: Center(child: Text("Not Found")),
+          ),
+    );
   }
 }

@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.bold, color: Colors.grey.shade300),
           ),
         ),
+        backgroundColor: Colors.blueGrey,
         body: MyPlayer(),
       ),
     );
